@@ -18,4 +18,7 @@ RUN apt-get -qq update && apt-get -qq -y install curl bzip2 \
 ENV PATH /opt/conda/bin:$PATH
 
 RUN pip install bids
-ENTRYPOINT /src/run.py
+
+COPY src/run.py /run.py
+
+ENTRYPOINT ["/run.py"]
