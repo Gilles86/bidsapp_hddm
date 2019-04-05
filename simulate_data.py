@@ -26,7 +26,6 @@ for subject, d in data_a.groupby('subj_idx'):
     
     d['onset'] = np.arange(len(d))
     d['onset'] += d.rt.cumsum().shift(1).fillna(0)
-    #d.iloc[0]['onset'] = 0
     d['response'] = d['response'].astype(int)
     d['trial_type'] = d['condition']
     d[['onset', 'trial_type', 'rt', 'response']].to_csv(op.join(sub_dir, 'sub-{subject:02d}_events.tsv').format(subject=subject),
