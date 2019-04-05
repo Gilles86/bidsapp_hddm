@@ -71,12 +71,15 @@ elif 'regressors' in model_json['HDDMmodel']['nodes']['HDDM']:
         for k in r:
             regressors_fixed={k.encode('ascii','ignore'):r[k].encode('ascii','ignore'),'link_func':lambda x: x}
 
-    print(regressors_fixed)
     model = hddm.HDDMRegressor(df,regressors_fixed)
 
 
 if estimation_method == 'mcmc':
-    model.sample(500)
+
+    burn = model_json['HDDMmodel']['estimation']['burn']
+    n_samples = model_json['HDDMmodel']['estimation']['n_samples']
+    model.sample(n_samples,
+                 burn=burn)
 
     if not op.exists(op.join(derivatives, 'hddm_mcmc')):
         os.makedirs(op.join(derivatives, 'hddm_mcmc'))
