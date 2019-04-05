@@ -3,6 +3,7 @@ import hddm
 import os.path as op
 import os
 import numpy as np
+import pandas as pd
 
 n_subjects = 10
 trials_per_level = 150
@@ -23,7 +24,9 @@ for subject, d in data_a.groupby('subj_idx'):
     if not op.exists(sub_dir) :
         os.makedirs(sub_dir)
     
-    d['onset'] = d.rt.cumsum() + np.arange(len(d))
+    d['onset'] = np.arange(len(d))
+    d['onset'] += d.rt.cumsum().shift(1).fillna(0)
+    #d.iloc[0]['onset'] = 0
     d['response'] = d['response'].astype(int)
     d['trial_type'] = d['condition']
     d[['onset', 'trial_type', 'rt', 'response']].to_csv(op.join(sub_dir, 'sub-{subject:02d}_events.tsv').format(subject=subject),
