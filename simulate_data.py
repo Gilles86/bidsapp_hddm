@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import hddm
 import os.path as op
 import os
